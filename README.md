@@ -40,6 +40,18 @@ React Native:
 import { ColorBrandPrimary } from '@x-men-evolution/design-tokens/native';
 ```
 
+Tailwind / NativeWind (`theme.extend` do `tailwind.config`):
+
+```js
+import theme from '@x-men-evolution/design-tokens/tailwind';
+
+export default {
+  theme: {
+    extend: theme // colors, spacing, borderRadius, boxShadow, fontFamily, fontWeight, fontSize
+  }
+};
+```
+
 ## Publicação (GitHub Packages)
 
 Os pacotes são publicados no GitHub Packages via workflow de release
