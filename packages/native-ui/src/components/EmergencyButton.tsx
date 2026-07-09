@@ -8,9 +8,8 @@ import {
   ColorSlate200,
   ColorTextDisabled,
   RadiusLg,
-  SpacingMd,
+  SpacingLg,
   SpacingSm,
-  SpacingXs,
   TextStyleLabelMediumFontSize,
   TextStyleLabelMediumFontWeight,
   TextStyleLabelMediumLetterSpacing,
@@ -58,7 +57,7 @@ export function EmergencyButton({
       ]}
     >
       <View style={[styles.badge, { backgroundColor: badgeColor }]}>
-        <ShieldAlertIcon size={24} color={contentColor} />
+        <ShieldAlertIcon size={32} color={contentColor} />
       </View>
 
       <View style={styles.content}>
@@ -73,8 +72,8 @@ export function EmergencyButton({
       </View>
 
       <View style={styles.chevrons}>
-        <ChevronRightIcon size={16} color={contentColor} />
-        <ChevronRightIcon size={16} color={contentColor} style={styles.chevronOverlap} />
+        <ChevronRightIcon size={24} color={contentColor} />
+        <ChevronRightIcon size={24} color={contentColor} style={styles.chevronOverlap} />
       </View>
     </Pressable>
   );
@@ -85,10 +84,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     borderRadius: RadiusLg,
-    padding: SpacingXs
+    padding: 6
   },
   badge: {
-    width: 56,
+    width: 68,
+    height: 70,
     borderRadius: RadiusLg,
     alignItems: 'center',
     justifyContent: 'center'
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
-    marginLeft: SpacingMd,
+    marginLeft: SpacingLg,
     gap: 2
   },
   title: {
@@ -117,6 +117,6 @@ const styles = StyleSheet.create({
     marginLeft: SpacingSm
   },
   chevronOverlap: {
-    marginLeft: -6
+    marginLeft: -14
   }
 });
