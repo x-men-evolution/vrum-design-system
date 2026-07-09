@@ -80,6 +80,45 @@ StyleDictionary.registerFormat({
     `${tailwindThemeHeader}module.exports = ${JSON.stringify(buildTailwindTheme(dictionary), null, 2)};\n`
 });
 
+// `theme.js`/`theme.cjs` não tinham `.d.ts` próprio: quem consumia
+// `@x-men-evolution/design-tokens/tailwind` precisava declarar o módulo
+// manualmente. Gera o tipo a partir do mesmo objeto que os formats acima
+// serializam, então não pode dessincronizar quando um token novo entrar.
+const FONT_SIZE_ENTRY_TYPE =
+  "[string, { lineHeight: string; letterSpacing: string | number; fontWeight: string }]";
+
+function isFontSizeEntry(value) {
+  return (
+    Array.isArray(value) &&
+    value.length === 2 &&
+    typeof value[1] === 'object' &&
+    value[1] !== null &&
+    'fontWeight' in value[1]
+  );
+}
+
+function quotePropertyKey(key) {
+  return /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key) ? key : JSON.stringify(key);
+}
+
+function toTsType(value) {
+  if (isFontSizeEntry(value)) return FONT_SIZE_ENTRY_TYPE;
+  if (Array.isArray(value)) return `Array<${[...new Set(value.map(toTsType))].join(' | ')}>`;
+  if (value !== null && typeof value === 'object') {
+    const entries = Object.entries(value)
+      .map(([key, val]) => `${quotePropertyKey(key)}: ${toTsType(val)};`)
+      .join(' ');
+    return `{ ${entries} }`;
+  }
+  return typeof value === 'number' ? 'number' : 'string';
+}
+
+StyleDictionary.registerFormat({
+  name: 'tailwind/theme-declaration',
+  format: ({ dictionary }) =>
+    `${tailwindThemeHeader}declare const theme: ${toTsType(buildTailwindTheme(dictionary))};\nexport default theme;\n`
+});
+
 export default {
   source: ['tokens/**/*.json'],
   platforms: {
@@ -109,7 +148,8 @@ export default {
       buildPath: 'dist/tailwind/',
       files: [
         { destination: 'theme.js', format: 'tailwind/theme' },
-        { destination: 'theme.cjs', format: 'tailwind/theme-cjs' }
+        { destination: 'theme.cjs', format: 'tailwind/theme-cjs' },
+        { destination: 'theme.d.ts', format: 'tailwind/theme-declaration' }
       ]
     }
   }
