@@ -6,5 +6,14 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ['react', 'react-native', 'react-native-svg', '@react-native-picker/picker']
+  external: [
+    'react',
+    'react-native',
+    'react-native-svg',
+    '@react-native-picker/picker',
+    '@gorhom/bottom-sheet',
+    'react-native-gesture-handler',
+    'react-native-reanimated',
+    'react-native-safe-area-context'
+  ]
 });
