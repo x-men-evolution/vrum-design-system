@@ -19,3 +19,35 @@ export type { SearchInputProps, SearchInputSize } from './components/SearchInput
 
 export { Select, SELECT_SIZES } from './components/Select';
 export type { SelectProps, SelectSize, SelectOption } from './components/Select';
+
+export { Tag, TAG_COLORS, TAG_SIZES } from './components/Tag';
+export type { TagProps, TagColor, TagSize } from './components/Tag';
+
+export { VrumLogo, VRUM_LOGO_VARIANTS } from './components/VrumLogo';
+export type { VrumLogoProps, VrumLogoVariant } from './components/VrumLogo';
+
+export { FilterChip } from './components/FilterChip';
+export type { FilterChipProps } from './components/FilterChip';
+
+export { Toggle, TOGGLE_SIZES } from './components/Toggle';
+export type { ToggleProps, ToggleSize } from './components/Toggle';
+
+export { IconButton } from './components/IconButton';
+export type { IconButtonProps } from './components/IconButton';
+
+export { Divider } from './components/Divider';
+export type { DividerProps } from './components/Divider';
+
+export { Switch } from './components/Switch';
+export type { SwitchProps } from './components/Switch';
+
+export {
+  Sheet,
+  BottomSheetView,
+  BottomSheetScrollView,
+  BottomSheetFlatList
+} from './components/Sheet';
+export type { SheetProps, SheetRef } from './components/Sheet';
+
+export { FullScreenModal, FULL_SCREEN_MODAL_VARIANTS } from './components/FullScreenModal';
+export type { FullScreenModalProps, FullScreenModalVariant } from './components/FullScreenModal';
