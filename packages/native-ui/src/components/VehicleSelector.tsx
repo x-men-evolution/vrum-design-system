@@ -42,7 +42,13 @@ export function VehicleSelector({ title, subtitle, onChangePress, style }: Vehic
           {subtitle}
         </RNText>
       </View>
-      <Pressable onPress={onChangePress} hitSlop={10} style={styles.changeButton}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Alterar veículo, atual: ${title}`}
+        onPress={onChangePress}
+        hitSlop={10}
+        style={styles.changeButton}
+      >
         <RNText style={styles.changeButtonText}>Alterar</RNText>
       </Pressable>
     </View>

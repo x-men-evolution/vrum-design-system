@@ -89,7 +89,7 @@ export function CarVersionListItem({
         </RNText>
         <View style={styles.metadataRow}>
           {metadata.map((item, index) => (
-            <Fragment key={index}>
+            <Fragment key={`${item}-${index}`}>
               {index > 0 && <View style={[styles.dot, { backgroundColor: metadataColors[state] }]} />}
               <RNText style={[styles.metadataText, { color: metadataColors[state] }]}>{item}</RNText>
             </Fragment>
