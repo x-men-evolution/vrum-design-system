@@ -38,6 +38,9 @@ export type { IconButtonProps } from './components/IconButton';
 export { Divider } from './components/Divider';
 export type { DividerProps } from './components/Divider';
 
+export { Link } from './components/Link';
+export type { LinkProps } from './components/Link';
+
 export { Switch } from './components/Switch';
 export type { SwitchProps } from './components/Switch';
 
