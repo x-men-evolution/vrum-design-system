@@ -51,3 +51,12 @@ export type { SheetProps, SheetRef } from './components/Sheet';
 
 export { FullScreenModal, FULL_SCREEN_MODAL_VARIANTS } from './components/FullScreenModal';
 export type { FullScreenModalProps, FullScreenModalVariant } from './components/FullScreenModal';
+
+export { OptionButton } from './components/OptionButton';
+export type { OptionButtonProps } from './components/OptionButton';
+
+export { CarVersionListItem } from './components/CarVersionListItem';
+export type { CarVersionListItemProps } from './components/CarVersionListItem';
+
+export { VehicleSelector } from './components/VehicleSelector';
+export type { VehicleSelectorProps } from './components/VehicleSelector';
