@@ -35,4 +35,29 @@ describe('Button', () => {
       expect.objectContaining({ disabled: true })
     );
   });
+
+  it('does not call onPress when loading', async () => {
+    const onPress = jest.fn();
+    await render(
+      <Button loading onPress={onPress}>
+        Continuar
+      </Button>
+    );
+
+    await fireEvent.press(screen.getByRole('button'));
+
+    expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it('exposes accessibilityState.busy when loading', async () => {
+    await render(<Button loading>Continuar</Button>);
+    expect(screen.getByRole('button').props.accessibilityState).toEqual(
+      expect.objectContaining({ disabled: true, busy: true })
+    );
+  });
+
+  it('still renders its label when loading', async () => {
+    await render(<Button loading>Continuar</Button>);
+    expect(screen.getByText('Continuar')).toBeTruthy();
+  });
 });

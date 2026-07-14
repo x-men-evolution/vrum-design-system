@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text as RNText } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import {
   ColorActionDefault,
@@ -16,6 +16,7 @@ import {
   ColorTextInverse,
   RadiusMd,
   SpacingMd,
+  SpacingSm,
   SpacingXl
 } from '@x-men-evolution/design-tokens/native';
 import { textVariants } from '../internal/typography';
@@ -31,6 +32,7 @@ export type ButtonProps = Omit<PressableProps, 'style' | 'children'> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
+  loading?: boolean;
   style?: StyleProp<ViewStyle>;
   onPress?: (event: GestureResponderEvent) => void;
 };
@@ -88,23 +90,27 @@ export function Button({
   variant = 'primary',
   size = 'lg',
   disabled = false,
+  loading = false,
   style,
   ...props
 }: ButtonProps) {
   const colors = variantColors[variant];
   const isOutlined = variant === 'outline';
+  const isDisabled = disabled || loading;
+
+  const textColor = isDisabled ? (isOutlined || variant === 'ghost' ? colors.text : ColorTextDisabled) : colors.text;
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ disabled }}
-      disabled={disabled}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
+      disabled={isDisabled}
       style={({ pressed }) => [
         styles.base,
         sizeStyles[size],
         isOutlined && styles.outlineBorder,
         {
-          backgroundColor: disabled
+          backgroundColor: isDisabled
             ? isOutlined || variant === 'ghost'
               ? 'transparent'
               : ColorActionDisabled
@@ -113,19 +119,15 @@ export function Button({
               : colors.background,
           borderColor: colors.border
         },
-        (disabled && (isOutlined || variant === 'ghost')) && styles.disabledOpacity,
+        (isDisabled && (isOutlined || variant === 'ghost')) && styles.disabledOpacity,
         style
       ]}
       {...props}
     >
-      <RNText
-        style={[
-          textSizeStyles[size],
-          { color: disabled ? (isOutlined || variant === 'ghost' ? colors.text : ColorTextDisabled) : colors.text }
-        ]}
-      >
-        {children}
-      </RNText>
+      <View style={styles.content}>
+        {loading ? <ActivityIndicator size="small" color={textColor} /> : null}
+        <RNText style={[textSizeStyles[size], { color: textColor }]}>{children}</RNText>
+      </View>
     </Pressable>
   );
 }
@@ -135,6 +137,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: RadiusMd
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: SpacingSm
   },
   outlineBorder: {
     borderWidth: 1.5
