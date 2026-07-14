@@ -8,12 +8,9 @@ import {
   ColorSlate900,
   ColorTextDefault,
   SpacingLg,
-  SpacingMd,
-  TextStyleTitleLargeFontSize,
-  TextStyleTitleLargeFontWeight,
-  TextStyleTitleLargeLetterSpacing,
-  TextStyleTitleLargeLineHeight
+  SpacingMd
 } from '@x-men-evolution/design-tokens/native';
+import { textVariants } from '../internal/typography';
 
 export const FULL_SCREEN_MODAL_VARIANTS = ['page', 'full'] as const;
 export type FullScreenModalVariant = (typeof FULL_SCREEN_MODAL_VARIANTS)[number];
@@ -53,7 +50,7 @@ export function FullScreenModal({
       <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
         {showHeader && (
           <View style={styles.header}>
-            {title ? <RNText style={styles.title}>{title}</RNText> : <View style={styles.headerSpacer} />}
+            {title ? <RNText style={[textVariants.titleLarge, styles.title]}>{title}</RNText> : <View style={styles.headerSpacer} />}
             {showCloseButton && (
               <Pressable onPress={onClose} hitSlop={10} accessibilityRole="button" accessibilityLabel="Fechar">
                 <X size={24} color={ColorSlate900} />
@@ -92,10 +89,6 @@ const styles = StyleSheet.create<{
   },
   title: {
     flex: 1,
-    fontSize: TextStyleTitleLargeFontSize,
-    fontWeight: String(TextStyleTitleLargeFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleTitleLargeLineHeight,
-    letterSpacing: TextStyleTitleLargeLetterSpacing,
     color: ColorTextDefault
   },
   content: {

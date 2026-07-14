@@ -36,7 +36,8 @@
   ],
   "scripts": {
     "build": "style-dictionary build --config sd.config.js",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "lint": "eslint sd.config.js"
   },
   "devDependencies": {
     "style-dictionary": "^4.4.0"

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text as RNText } from 'react-native';
-import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { GestureResponderEvent, PressableProps, StyleProp, ViewStyle } from 'react-native';
 import {
   ColorActionDisabled,
   ColorActionGhostHover,
@@ -8,15 +8,14 @@ import {
   ColorTextDisabled,
   ColorTextSecondary,
   RadiusMd,
-  SpacingSm,
-  TextStyleLabelLargeFontSize,
-  TextStyleLabelLargeFontWeight,
-  TextStyleLabelLargeLetterSpacing,
-  TextStyleLabelLargeLineHeight
+  SpacingSm
 } from '@x-men-evolution/design-tokens/native';
+import { FIELD_SIZES, fieldHeights, fieldPaddings } from '../internal/fieldMetrics';
+import type { FieldSize } from '../internal/fieldMetrics';
+import { textVariants } from '../internal/typography';
 
-export const TOGGLE_SIZES = ['sm', 'md', 'lg'] as const;
-export type ToggleSize = (typeof TOGGLE_SIZES)[number];
+export const TOGGLE_SIZES = FIELD_SIZES;
+export type ToggleSize = FieldSize;
 
 export type ToggleProps = Omit<PressableProps, 'style' | 'children'> & {
   children: string;
@@ -26,9 +25,6 @@ export type ToggleProps = Omit<PressableProps, 'style' | 'children'> & {
   style?: StyleProp<ViewStyle>;
   onPress?: (event: GestureResponderEvent) => void;
 };
-
-const fieldHeights: Record<ToggleSize, number> = { sm: 36, md: 44, lg: 52 };
-const fieldPaddings: Record<ToggleSize, number> = { sm: 10, md: 12, lg: 16 };
 
 export function Toggle({
   children,
@@ -57,7 +53,7 @@ export function Toggle({
     >
       <RNText
         style={[
-          styles.text,
+          textVariants.labelLarge,
           { color: disabled ? ColorTextDisabled : selected ? ColorTextBrand : ColorTextSecondary }
         ]}
       >
@@ -72,7 +68,6 @@ const styles = StyleSheet.create<{
   outlineBorder: ViewStyle;
   selected: ViewStyle;
   disabled: ViewStyle;
-  text: TextStyle;
 }>({
   base: {
     alignItems: 'center',
@@ -90,11 +85,5 @@ const styles = StyleSheet.create<{
   },
   disabled: {
     backgroundColor: ColorActionDisabled
-  },
-  text: {
-    fontSize: TextStyleLabelLargeFontSize,
-    fontWeight: String(TextStyleLabelLargeFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelLargeLineHeight,
-    letterSpacing: TextStyleLabelLargeLetterSpacing
   }
 });

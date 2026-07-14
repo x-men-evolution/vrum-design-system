@@ -7,16 +7,9 @@ import {
   ColorChipSuccess,
   ColorChipWarning,
   ColorTextInverse,
-  RadiusSm,
-  TextStyleLabelLargeFontSize,
-  TextStyleLabelLargeFontWeight,
-  TextStyleLabelLargeLetterSpacing,
-  TextStyleLabelLargeLineHeight,
-  TextStyleLabelMediumFontSize,
-  TextStyleLabelMediumFontWeight,
-  TextStyleLabelMediumLetterSpacing,
-  TextStyleLabelMediumLineHeight
+  RadiusSm
 } from '@x-men-evolution/design-tokens/native';
+import { textVariants } from '../internal/typography';
 
 export const TAG_COLORS = ['default', 'primary', 'success', 'warning', 'danger'] as const;
 export const TAG_SIZES = ['sm', 'md', 'lg'] as const;
@@ -46,24 +39,9 @@ const sizeStyles: Record<TagSize, ViewStyle> = {
 };
 
 const textSizeStyles: Record<TagSize, TextStyle> = {
-  sm: {
-    fontSize: TextStyleLabelMediumFontSize,
-    fontWeight: String(TextStyleLabelMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelMediumLineHeight,
-    letterSpacing: TextStyleLabelMediumLetterSpacing
-  },
-  md: {
-    fontSize: TextStyleLabelMediumFontSize,
-    fontWeight: String(TextStyleLabelMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelMediumLineHeight,
-    letterSpacing: TextStyleLabelMediumLetterSpacing
-  },
-  lg: {
-    fontSize: TextStyleLabelLargeFontSize,
-    fontWeight: String(TextStyleLabelLargeFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelLargeLineHeight,
-    letterSpacing: TextStyleLabelLargeLetterSpacing
-  }
+  sm: textVariants.labelMedium,
+  md: textVariants.labelMedium,
+  lg: textVariants.labelLarge
 };
 
 export function Tag({ children, color = 'default', size = 'sm', style }: TagProps) {

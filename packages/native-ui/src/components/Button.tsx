@@ -3,14 +3,10 @@ import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewS
 import {
   ColorActionDefault,
   ColorActionDestructiveDefault,
-  ColorActionDestructiveHover,
   ColorActionDestructivePressed,
   ColorActionDisabled,
-  ColorActionGhostHover,
   ColorActionGhostPressed,
-  ColorActionHover,
   ColorActionPressed,
-  ColorBgSubtle,
   ColorBgSurface,
   ColorBorderBrand,
   ColorSecondary300,
@@ -20,20 +16,9 @@ import {
   ColorTextInverse,
   RadiusMd,
   SpacingMd,
-  SpacingXl,
-  TextStyleLabelLargeFontSize,
-  TextStyleLabelLargeFontWeight,
-  TextStyleLabelLargeLetterSpacing,
-  TextStyleLabelLargeLineHeight,
-  TextStyleLabelMediumFontSize,
-  TextStyleLabelMediumFontWeight,
-  TextStyleLabelMediumLetterSpacing,
-  TextStyleLabelMediumLineHeight,
-  TextStyleTitleMediumFontSize,
-  TextStyleTitleMediumFontWeight,
-  TextStyleTitleMediumLetterSpacing,
-  TextStyleTitleMediumLineHeight
+  SpacingXl
 } from '@x-men-evolution/design-tokens/native';
+import { textVariants } from '../internal/typography';
 
 export const BUTTON_VARIANTS = ['primary', 'secondary', 'outline', 'ghost', 'destructive'] as const;
 export const BUTTON_SIZES = ['sm', 'md', 'lg'] as const;
@@ -86,40 +71,17 @@ const variantColors: Record<ButtonVariant, VariantColors> = {
   }
 };
 
-const hoverBackground: Record<ButtonVariant, string> = {
-  primary: ColorActionHover,
-  secondary: ColorBgSubtle,
-  outline: ColorActionGhostHover,
-  ghost: ColorActionGhostHover,
-  destructive: ColorActionDestructiveHover
-};
-
 const sizeStyles = StyleSheet.create({
   lg: { height: 56, paddingHorizontal: SpacingXl },
   md: { height: 44, paddingHorizontal: 20 },
   sm: { height: 32, paddingHorizontal: SpacingMd }
 });
 
-const textSizeStyles = StyleSheet.create<Record<ButtonSize, TextStyle>>({
-  lg: {
-    fontSize: TextStyleTitleMediumFontSize,
-    fontWeight: String(TextStyleTitleMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleTitleMediumLineHeight,
-    letterSpacing: TextStyleTitleMediumLetterSpacing
-  },
-  md: {
-    fontSize: TextStyleLabelLargeFontSize,
-    fontWeight: String(TextStyleLabelLargeFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelLargeLineHeight,
-    letterSpacing: TextStyleLabelLargeLetterSpacing
-  },
-  sm: {
-    fontSize: TextStyleLabelMediumFontSize,
-    fontWeight: String(TextStyleLabelMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelMediumLineHeight,
-    letterSpacing: TextStyleLabelMediumLetterSpacing
-  }
-});
+const textSizeStyles: Record<ButtonSize, TextStyle> = {
+  lg: textVariants.titleMedium,
+  md: textVariants.labelLarge,
+  sm: textVariants.labelMedium
+};
 
 export function Button({
   children,
@@ -147,7 +109,7 @@ export function Button({
               ? 'transparent'
               : ColorActionDisabled
             : pressed
-              ? hoverBackground[variant]
+              ? colors.backgroundPressed
               : colors.background,
           borderColor: colors.border
         },
