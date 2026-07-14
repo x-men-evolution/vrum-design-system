@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Pressable, StyleSheet, Text as RNText } from 'react-native';
-import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { GestureResponderEvent, NativeSyntheticEvent, PressableProps, StyleProp, TargetedEvent, ViewStyle } from 'react-native';
 import {
   ColorActionDefault,
   ColorActionDisabled,
@@ -11,12 +10,10 @@ import {
   ColorBorderFocus,
   ColorTextBrand,
   ColorTextSecondary,
-  RadiusFull,
-  TextStyleLabelMediumFontSize,
-  TextStyleLabelMediumFontWeight,
-  TextStyleLabelMediumLetterSpacing,
-  TextStyleLabelMediumLineHeight
+  RadiusFull
 } from '@x-men-evolution/design-tokens/native';
+import { textVariants } from '../internal/typography';
+import { useFocusState } from '../internal/useFocusState';
 
 export type FilterChipProps = Omit<PressableProps, 'style' | 'children'> & {
   children: string;
@@ -35,21 +32,16 @@ export function FilterChip({
   onBlur,
   ...props
 }: FilterChipProps) {
-  const [focused, setFocused] = useState(false);
+  const { isFocused, handleFocus, handleBlur } =
+    useFocusState<NativeSyntheticEvent<TargetedEvent>>(onFocus ?? undefined, onBlur ?? undefined);
 
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityState={{ disabled, selected }}
       disabled={disabled}
-      onFocus={(event) => {
-        setFocused(true);
-        onFocus?.(event);
-      }}
-      onBlur={(event) => {
-        setFocused(false);
-        onBlur?.(event);
-      }}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       style={({ pressed }) => [
         styles.base,
         disabled
@@ -59,8 +51,8 @@ export function FilterChip({
             : [
                 styles.outlineBorder,
                 {
-                  borderColor: focused ? ColorBorderFocus : ColorBorderBrand,
-                  borderWidth: focused ? 2 : 1,
+                  borderColor: isFocused ? ColorBorderFocus : ColorBorderBrand,
+                  borderWidth: isFocused ? 2 : 1,
                   backgroundColor: pressed ? ColorActionGhostHover : 'transparent'
                 }
               ],
@@ -70,7 +62,7 @@ export function FilterChip({
     >
       <RNText
         style={[
-          styles.text,
+          textVariants.labelMedium,
           { color: disabled ? ColorTextSecondary : selected ? ColorActionText : ColorTextBrand }
         ]}
       >
@@ -84,7 +76,6 @@ const styles = StyleSheet.create<{
   base: ViewStyle;
   outlineBorder: ViewStyle;
   disabled: ViewStyle;
-  text: TextStyle;
 }>({
   base: {
     height: 24,
@@ -100,11 +91,5 @@ const styles = StyleSheet.create<{
   },
   disabled: {
     backgroundColor: ColorActionDisabled
-  },
-  text: {
-    fontSize: TextStyleLabelMediumFontSize,
-    fontWeight: String(TextStyleLabelMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelMediumLineHeight,
-    letterSpacing: TextStyleLabelMediumLetterSpacing
   }
 });

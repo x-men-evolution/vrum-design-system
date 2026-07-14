@@ -1,13 +1,7 @@
 import { StyleSheet, Text as RNText, View } from 'react-native';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import {
-  ColorBorderDefault,
-  ColorSlate500,
-  TextStyleBodyMediumFontSize,
-  TextStyleBodyMediumFontWeight,
-  TextStyleBodyMediumLetterSpacing,
-  TextStyleBodyMediumLineHeight
-} from '@x-men-evolution/design-tokens/native';
+import { ColorBorderDefault, ColorSlate500 } from '@x-men-evolution/design-tokens/native';
+import { textVariants } from '../internal/typography';
 
 export type DividerProps = {
   children?: string;
@@ -22,7 +16,7 @@ export function Divider({ children, style }: DividerProps) {
   return (
     <View style={[styles.row, style]}>
       <View style={styles.line} />
-      <RNText style={styles.label}>{children}</RNText>
+      <RNText style={[textVariants.bodyMedium, styles.label]}>{children}</RNText>
       <View style={styles.line} />
     </View>
   );
@@ -44,10 +38,6 @@ const styles = StyleSheet.create<{
     backgroundColor: ColorBorderDefault
   },
   label: {
-    fontSize: TextStyleBodyMediumFontSize,
-    fontWeight: String(TextStyleBodyMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleBodyMediumLineHeight,
-    letterSpacing: TextStyleBodyMediumLetterSpacing,
     color: ColorSlate500,
     textAlign: 'center'
   }

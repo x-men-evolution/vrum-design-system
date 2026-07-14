@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
-import type { GestureResponderEvent, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
 import { Car, ChartNoAxesColumn, House, MessageCircleMore, User, Wrench } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import {
@@ -10,13 +10,10 @@ import {
   ColorSlate400,
   ColorTextBrand,
   RadiusFull,
-  SpacingMd,
-  TextStyleLabelLargeFontSize,
-  TextStyleLabelLargeFontWeight,
-  TextStyleLabelLargeLetterSpacing,
-  TextStyleLabelLargeLineHeight
+  SpacingMd
 } from '@x-men-evolution/design-tokens/native';
 import { EmergencyPhoneIcon } from '../icons/EmergencyPhoneIcon';
+import { textVariants } from '../internal/typography';
 
 export const TAB_BAR_VARIANTS = ['default', 'provider'] as const;
 export type TabBarVariant = (typeof TAB_BAR_VARIANTS)[number];
@@ -70,7 +67,7 @@ function TabItem({
       style={styles.tabItem}
     >
       <tab.Icon size={22} color={color} />
-      <RNText style={[styles.tabLabel, { color }]}>{tab.label}</RNText>
+      <RNText style={[textVariants.labelLarge, { color }]}>{tab.label}</RNText>
     </Pressable>
   );
 }
@@ -132,12 +129,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6
   },
-  tabLabel: {
-    fontSize: TextStyleLabelLargeFontSize,
-    fontWeight: String(TextStyleLabelLargeFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelLargeLineHeight,
-    letterSpacing: TextStyleLabelLargeLetterSpacing
-  } as TextStyle,
   emergencyButton: {
     width: 75,
     height: 75,

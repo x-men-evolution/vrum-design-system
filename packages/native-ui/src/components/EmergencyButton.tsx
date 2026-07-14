@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import type { GestureResponderEvent, StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
 import {
   ColorActionDefault,
   ColorActionDisabled,
@@ -9,18 +9,11 @@ import {
   ColorTextDisabled,
   RadiusLg,
   SpacingLg,
-  SpacingSm,
-  TextStyleLabelMediumFontSize,
-  TextStyleLabelMediumFontWeight,
-  TextStyleLabelMediumLetterSpacing,
-  TextStyleLabelMediumLineHeight,
-  TextStyleTitleSmallFontSize,
-  TextStyleTitleSmallFontWeight,
-  TextStyleTitleSmallLetterSpacing,
-  TextStyleTitleSmallLineHeight
+  SpacingSm
 } from '@x-men-evolution/design-tokens/native';
 import { ChevronRightIcon } from '../icons/ChevronRightIcon';
 import { ShieldAlertIcon } from '../icons/ShieldAlertIcon';
+import { textVariants } from '../internal/typography';
 
 export type EmergencyButtonProps = {
   title?: string;
@@ -61,11 +54,11 @@ export function EmergencyButton({
       </View>
 
       <View style={styles.content}>
-        <Text style={[styles.title, { color: contentColor }]} numberOfLines={1}>
+        <Text style={[textVariants.titleSmall, { color: contentColor }]} numberOfLines={1}>
           {title}
         </Text>
         {subtitle ? (
-          <Text style={[styles.subtitle, { color: contentColor }]} numberOfLines={1}>
+          <Text style={[textVariants.labelMedium, { color: contentColor }]} numberOfLines={1}>
             {subtitle}
           </Text>
         ) : null}
@@ -98,18 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: SpacingLg,
     gap: 2
-  },
-  title: {
-    fontSize: TextStyleTitleSmallFontSize,
-    fontWeight: String(TextStyleTitleSmallFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleTitleSmallLineHeight,
-    letterSpacing: TextStyleTitleSmallLetterSpacing
-  },
-  subtitle: {
-    fontSize: TextStyleLabelMediumFontSize,
-    fontWeight: String(TextStyleLabelMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleLabelMediumLineHeight,
-    letterSpacing: TextStyleLabelMediumLetterSpacing
   },
   chevrons: {
     flexDirection: 'row',

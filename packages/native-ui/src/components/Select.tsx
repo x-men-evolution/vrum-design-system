@@ -15,10 +15,12 @@ import {
   SpacingSm,
   SpacingXs
 } from '@x-men-evolution/design-tokens/native';
-import { fieldTypography } from '../internal/fieldTypography';
+import { FIELD_SIZES, fieldHeights, fieldLabelTypography, fieldTextTypography, labelGaps } from '../internal/fieldMetrics';
+import type { FieldSize } from '../internal/fieldMetrics';
+import { textVariants } from '../internal/typography';
 
-export const SELECT_SIZES = ['sm', 'md', 'lg'] as const;
-export type SelectSize = (typeof SELECT_SIZES)[number];
+export const SELECT_SIZES = FIELD_SIZES;
+export type SelectSize = FieldSize;
 
 export type SelectOption = {
   value: string | number;
@@ -39,17 +41,10 @@ export type SelectProps = {
 
 const PLACEHOLDER_VALUE = '__placeholder__';
 
-const fieldHeights: Record<SelectSize, number> = { sm: 36, md: 44, lg: 52 };
-const labelGaps: Record<SelectSize, number> = { sm: SpacingXs, md: 6, lg: SpacingSm };
+// Diverge de fieldTextTypography no lg (bodyLarge em vez de bodyMedium).
 const textTypography: Record<SelectSize, TextStyle> = {
-  sm: fieldTypography.bodySmall,
-  md: fieldTypography.bodyMedium,
-  lg: fieldTypography.bodyLarge
-};
-const labelTypography: Record<SelectSize, TextStyle> = {
-  sm: fieldTypography.labelSmall,
-  md: fieldTypography.bodySmall,
-  lg: fieldTypography.bodySmall
+  ...fieldTextTypography,
+  lg: textVariants.bodyLarge
 };
 
 export function Select({
@@ -102,7 +97,7 @@ export function Select({
     <View style={style}>
       <View style={disabled && styles.disabled}>
         {label ? (
-          <RNText style={[styles.label, labelTypography[size], { marginBottom: labelGaps[size] }]}>{label}</RNText>
+          <RNText style={[styles.label, fieldLabelTypography[size], { marginBottom: labelGaps[size] }]}>{label}</RNText>
         ) : null}
 
         <View style={[styles.field, { height: fieldHeights[size], borderColor }]}>
@@ -138,7 +133,7 @@ export function Select({
         </View>
       </View>
 
-      {error ? <RNText style={[styles.errorText, fieldTypography.bodySmall]}>{error}</RNText> : null}
+      {error ? <RNText style={[styles.errorText, textVariants.bodySmall]}>{error}</RNText> : null}
     </View>
   );
 }

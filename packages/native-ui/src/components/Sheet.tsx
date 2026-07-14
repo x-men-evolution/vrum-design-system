@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -16,12 +16,9 @@ import {
   Radius2xl,
   SpacingLg,
   SpacingMd,
-  SpacingXl,
-  TextStyleTitleMediumFontSize,
-  TextStyleTitleMediumFontWeight,
-  TextStyleTitleMediumLetterSpacing,
-  TextStyleTitleMediumLineHeight
+  SpacingXl
 } from '@x-men-evolution/design-tokens/native';
+import { textVariants } from '../internal/typography';
 
 export type SheetRef = {
   present: () => void;
@@ -101,7 +98,7 @@ export const Sheet = forwardRef<SheetRef, SheetProps>(function Sheet(
       <BottomSheetView style={[styles.content, contentStyle]}>
         {(title || resolvedShowClose) && (
           <View style={styles.header}>
-            {title ? <RNText style={styles.title}>{title}</RNText> : <View style={styles.headerSpacer} />}
+            {title ? <RNText style={[textVariants.titleMedium, styles.title]}>{title}</RNText> : <View style={styles.headerSpacer} />}
             {resolvedShowClose && (
               <Pressable onPress={() => modalRef.current?.dismiss()} hitSlop={10} accessibilityRole="button" accessibilityLabel="Fechar">
                 <X size={24} color={ColorSlate700} />
@@ -142,10 +139,6 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: TextStyleTitleMediumFontSize,
-    fontWeight: String(TextStyleTitleMediumFontWeight) as TextStyle['fontWeight'],
-    lineHeight: TextStyleTitleMediumLineHeight,
-    letterSpacing: TextStyleTitleMediumLetterSpacing,
     color: ColorTextDefault
   }
 });
