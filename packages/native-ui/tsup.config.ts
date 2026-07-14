@@ -9,6 +9,7 @@ export default defineConfig({
   external: [
     'react',
     'react-native',
+    'nativewind',
     'react-native-svg',
     '@react-native-picker/picker',
     '@gorhom/bottom-sheet',
