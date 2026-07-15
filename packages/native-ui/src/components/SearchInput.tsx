@@ -20,7 +20,7 @@ export type SearchInputSize = FieldSize;
 export type SearchInputProps = Omit<TextInputProps, 'style'> & {
   size?: SearchInputSize;
   label?: string;
-  rightIcon?: ReactNode;
+  leftIcon?: ReactNode;
   containerStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<TextStyle>;
 };
@@ -30,7 +30,7 @@ export type SearchInputProps = Omit<TextInputProps, 'style'> & {
 const searchHeights: Record<SearchInputSize, number> = { sm: 36, md: 48, lg: 60 };
 
 export const SearchInput = forwardRef<TextInput, SearchInputProps>(function SearchInput(
-  { size = 'lg', label, rightIcon, containerStyle, style, placeholder = 'Pesquisar...', onFocus, onBlur, ...props },
+  { size = 'lg', label, leftIcon, containerStyle, style, placeholder = 'Pesquisar...', onFocus, onBlur, ...props },
   ref
 ) {
   const { isFocused, handleFocus, handleBlur } =
@@ -45,7 +45,7 @@ export const SearchInput = forwardRef<TextInput, SearchInputProps>(function Sear
       fieldStyle={styles.shadow}
       containerStyle={containerStyle}
     >
-      <Search size={16} color={ColorSlate400} />
+      {leftIcon}
       <TextInput
         ref={ref}
         placeholder={placeholder}
@@ -55,7 +55,7 @@ export const SearchInput = forwardRef<TextInput, SearchInputProps>(function Sear
         onBlur={handleBlur}
         {...props}
       />
-      {rightIcon}
+      <Search size={16} color={ColorSlate400} />
     </Field>
   );
 });

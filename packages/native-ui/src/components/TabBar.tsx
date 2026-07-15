@@ -10,6 +10,7 @@ import {
   ColorSlate400,
   ColorTextBrand,
   RadiusFull,
+  SpacingLg,
   SpacingMd
 } from '@x-men-evolution/design-tokens/native';
 import { EmergencyPhoneIcon } from '../icons/EmergencyPhoneIcon';
@@ -118,12 +119,14 @@ const styles = StyleSheet.create({
     borderTopColor: ColorBorderDefault,
     paddingTop: SpacingMd,
     paddingBottom: SpacingMd,
-    paddingHorizontal: SpacingMd
+    paddingHorizontal: SpacingMd,
+    overflow: 'visible'
   },
   row: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    overflow: 'visible'
   },
   tabItem: {
     alignItems: 'center',
@@ -132,6 +135,9 @@ const styles = StyleSheet.create({
   emergencyButton: {
     width: 75,
     height: 75,
+    // Sobe acima da borda superior da barra (ver Figma: o botão central
+    // "corta" a linha divisória em vez de ficar contido nela).
+    marginTop: -SpacingLg,
     borderRadius: RadiusFull,
     backgroundColor: ColorActionDefault,
     alignItems: 'center',
