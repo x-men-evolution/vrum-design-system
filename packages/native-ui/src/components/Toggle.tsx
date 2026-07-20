@@ -74,10 +74,14 @@ const styles = StyleSheet.create<{
     justifyContent: 'center',
     alignSelf: 'flex-start',
     paddingVertical: SpacingSm,
-    borderRadius: RadiusMd
+    borderRadius: RadiusMd,
+    // Borda sempre reservada (transparente por padrão) para o selected/disabled
+    // não mudarem de tamanho em relação ao outline — evita o layout "pulando"
+    // ao trocar de estado.
+    borderWidth: 1,
+    borderColor: 'transparent'
   },
   outlineBorder: {
-    borderWidth: 1,
     borderColor: ColorBorderDefault
   },
   selected: {
