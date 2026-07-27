@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vrum-mobile-expo",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "cd ../vrum-mobile && exec npx expo start --localhost"],
+      "port": 8081
+    }
+  ]
+}
