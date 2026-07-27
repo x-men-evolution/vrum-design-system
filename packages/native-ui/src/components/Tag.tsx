@@ -1,8 +1,10 @@
 import { StyleSheet, Text as RNText, View } from 'react-native';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import {
+  ColorBranco,
   ColorChipDanger,
   ColorChipDefault,
+  ColorChipNeutral,
   ColorChipPrimary,
   ColorChipSuccess,
   ColorChipWarning,
@@ -11,7 +13,7 @@ import {
 } from '@x-men-evolution/design-tokens/native';
 import { textVariants } from '../internal/typography';
 
-export const TAG_COLORS = ['default', 'primary', 'success', 'warning', 'danger'] as const;
+export const TAG_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'neutral'] as const;
 export const TAG_SIZES = ['sm', 'md', 'lg'] as const;
 
 export type TagColor = (typeof TAG_COLORS)[number];
@@ -29,7 +31,17 @@ const colorBackgrounds: Record<TagColor, string> = {
   primary: ColorChipPrimary,
   success: ColorChipSuccess,
   warning: ColorChipWarning,
-  danger: ColorChipDanger
+  danger: ColorChipDanger,
+  neutral: ColorChipNeutral
+};
+
+const colorText: Record<TagColor, string> = {
+  default: ColorTextInverse,
+  primary: ColorTextInverse,
+  success: ColorTextInverse,
+  warning: ColorTextInverse,
+  danger: ColorTextInverse,
+  neutral: ColorBranco
 };
 
 const sizeStyles: Record<TagSize, ViewStyle> = {
@@ -54,7 +66,10 @@ export function Tag({ children, color = 'default', size = 'sm', style }: TagProp
         style
       ]}
     >
-      <RNText style={[textSizeStyles[size], styles.text]} numberOfLines={1}>
+      <RNText
+        style={[textSizeStyles[size], { color: colorText[color] }]}
+        numberOfLines={1}
+      >
         {children}
       </RNText>
     </View>
@@ -67,8 +82,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'flex-start',
     borderRadius: RadiusSm
-  },
-  text: {
-    color: ColorTextInverse
   }
 });

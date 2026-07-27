@@ -45,10 +45,11 @@
     },
     "chip": {
       "default": { "value": "{color.slate.900}" },
-      "primary": { "value": "{color.blue.600}" },
+      "primary": { "value": "{color.primary.700}" },
       "success": { "value": "{color.emerald.600}" },
-      "warning": { "value": "{color.amber.700}" },
-      "danger": { "value": "{color.primary.700}" }
+      "warning": { "value": "{color.amber.400}" },
+      "danger": { "value": "{color.primary.900}" },
+      "neutral": { "value": "{color.slate.400}" }
     }
   }
 }
