@@ -18,7 +18,7 @@
       "small": {
         "font-family": { "value": "{font.family.base}" },
         "font-size": { "value": 36 },
-        "font-weight": { "value": "{font.weight.regular}" },
+        "font-weight": { "value": "{font.weight.bold}" },
         "line-height": { "value": 44 },
         "letter-spacing": { "value": 0 }
       }
