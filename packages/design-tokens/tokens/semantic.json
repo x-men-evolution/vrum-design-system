@@ -49,7 +49,38 @@
       "success": { "value": "{color.emerald.600}" },
       "warning": { "value": "{color.amber.400}" },
       "danger": { "value": "{color.primary.900}" },
-      "neutral": { "value": "{color.slate.400}" }
+      "neutral": { "value": "{color.slate.500}" },
+      "info": { "value": "{color.blue.500}" },
+      "light": {
+        "default": {
+          "background": { "value": "{color.chipTint.defaultBg}" },
+          "text": { "value": "{color.slate.900}" }
+        },
+        "primary": {
+          "background": { "value": "{color.chipTint.primaryBg}" },
+          "text": { "value": "{color.primary.700}" }
+        },
+        "success": {
+          "background": { "value": "{color.chipTint.successBg}" },
+          "text": { "value": "{color.chipTint.successText}" }
+        },
+        "warning": {
+          "background": { "value": "{color.chipTint.warningBg}" },
+          "text": { "value": "{color.chipTint.warningText}" }
+        },
+        "danger": {
+          "background": { "value": "{color.chipTint.dangerBg}" },
+          "text": { "value": "{color.primary.950}" }
+        },
+        "neutral": {
+          "background": { "value": "{color.chipTint.neutralBg}" },
+          "text": { "value": "{color.chipTint.neutralText}" }
+        },
+        "info": {
+          "background": { "value": "{color.blue.100}" },
+          "text": { "value": "{color.blue.700}" }
+        }
+      }
     }
   }
 }
