@@ -20,8 +20,8 @@ export type { SearchInputProps, SearchInputSize } from './components/SearchInput
 export { Select, SELECT_SIZES } from './components/Select';
 export type { SelectProps, SelectSize, SelectOption } from './components/Select';
 
-export { Tag, TAG_COLORS, TAG_SIZES } from './components/Tag';
-export type { TagProps, TagColor, TagSize } from './components/Tag';
+export { Tag, TAG_COLORS, TAG_SIZES, TAG_VARIANTS } from './components/Tag';
+export type { TagProps, TagColor, TagSize, TagVariant } from './components/Tag';
 
 export { VrumLogo, VRUM_LOGO_VARIANTS } from './components/VrumLogo';
 export type { VrumLogoProps, VrumLogoVariant } from './components/VrumLogo';

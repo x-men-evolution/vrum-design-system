@@ -78,6 +78,17 @@
       "950": { "value": "#461901" }
     },
     "branco": { "value": "#ffffff" },
-    "preto": { "value": "#1a1a1a" }
+    "preto": { "value": "#1a1a1a" },
+    "chipTint": {
+      "defaultBg": { "value": "#e2e4e9" },
+      "primaryBg": { "value": "#fee2e7" },
+      "successBg": { "value": "#dcf5ec" },
+      "successText": { "value": "#007850" },
+      "warningBg": { "value": "#fff5da" },
+      "warningText": { "value": "#b47800" },
+      "dangerBg": { "value": "#f5e0e4" },
+      "neutralBg": { "value": "#e8ecf1" },
+      "neutralText": { "value": "#3c4b5f" }
+    }
   }
 }
