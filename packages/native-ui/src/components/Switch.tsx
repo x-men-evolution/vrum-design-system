@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated, Pressable, StyleSheet } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { ColorBranco, ColorChipSuccess, ColorSlate300, RadiusFull } from '@x-men-evolution/design-tokens/native';
+import { ColorBgPage, ColorEmerald500, ColorSlate400, RadiusFull } from '@x-men-evolution/design-tokens/native';
 
 export type SwitchProps = {
   value: boolean;
@@ -28,7 +28,7 @@ export function Switch({ value, onValueChange, disabled = false, style }: Switch
 
   const trackColor = progress.interpolate({
     inputRange: [0, 1],
-    outputRange: [ColorSlate300, ColorChipSuccess]
+    outputRange: [ColorSlate400, ColorEmerald500]
   });
 
   const knobTranslateX = progress.interpolate({
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     width: KNOB_SIZE,
     height: KNOB_SIZE,
     borderRadius: RadiusFull,
-    backgroundColor: ColorBranco,
+    backgroundColor: ColorBgPage,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,

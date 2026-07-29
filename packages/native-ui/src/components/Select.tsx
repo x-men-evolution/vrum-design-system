@@ -8,9 +8,9 @@ import {
   ColorBorderError,
   ColorBranco,
   ColorSecondary500,
+  ColorSecondary800,
   ColorSlate400,
   ColorTextDanger,
-  ColorTextDefault,
   RadiusMd,
   SpacingSm,
   SpacingXs
@@ -91,7 +91,7 @@ export function Select({
   };
 
   const borderColor = error ? ColorBorderError : ColorBorderDefault;
-  const textColor = selected ? ColorTextDefault : ColorSecondary500;
+  const textColor = selected ? ColorSecondary800 : ColorSecondary500;
 
   return (
     <View style={style}>
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   androidPicker: {
     flex: 1,
-    color: ColorTextDefault
+    color: ColorSecondary800
   },
   errorText: {
     color: ColorTextDanger,
