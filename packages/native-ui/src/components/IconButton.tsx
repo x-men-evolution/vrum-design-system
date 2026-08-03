@@ -3,10 +3,13 @@ import type { GestureResponderEvent, PressableProps, StyleProp, ViewStyle } from
 import type { LucideIcon } from 'lucide-react-native';
 import { ColorBorderDefault, ColorBranco, ColorBrandDefault, ColorSlate700, RadiusMd } from '@x-men-evolution/design-tokens/native';
 
+export const ICON_BUTTON_SIZES = ['sm', 'md', 'lg'] as const;
+export type IconButtonSize = (typeof ICON_BUTTON_SIZES)[number];
+
 export type IconButtonProps = Omit<PressableProps, 'style' | 'children'> & {
   icon: LucideIcon;
   badge?: boolean;
-  size?: number;
+  size?: IconButtonSize;
   iconSize?: number;
   color?: string;
   disabled?: boolean;
@@ -14,11 +17,17 @@ export type IconButtonProps = Omit<PressableProps, 'style' | 'children'> & {
   onPress?: (event: GestureResponderEvent) => void;
 };
 
+const sizeStyles = StyleSheet.create({
+  sm: { width: 36, height: 36 },
+  md: { width: 44, height: 44 },
+  lg: { width: 52, height: 52 }
+});
+
 export function IconButton({
   icon: Icon,
   badge = false,
-  size = 40,
-  iconSize = 24,
+  size = 'md',
+  iconSize = 16,
   color = ColorSlate700,
   disabled = false,
   style,
@@ -29,7 +38,7 @@ export function IconButton({
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
-      style={[styles.base, { width: size, height: size, opacity: disabled ? 0.4 : 1 }, style]}
+      style={[styles.base, sizeStyles[size], { opacity: disabled ? 0.4 : 1 }, style]}
       {...props}
     >
       <Icon size={iconSize} color={color} />

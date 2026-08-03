@@ -14,6 +14,9 @@ export type { TabBarProps, TabBarVariant, DefaultTabKey, ProviderTabKey, TabBarT
 export { Input, INPUT_SIZES } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
 
+export { Textarea, TEXTAREA_SIZES } from './components/Textarea';
+export type { TextareaProps, TextareaSize } from './components/Textarea';
+
 export { SearchInput, SEARCH_INPUT_SIZES } from './components/SearchInput';
 export type { SearchInputProps, SearchInputSize } from './components/SearchInput';
 
@@ -32,8 +35,10 @@ export type { FilterChipProps } from './components/FilterChip';
 export { Toggle, TOGGLE_SIZES } from './components/Toggle';
 export type { ToggleProps, ToggleSize } from './components/Toggle';
 
-export { IconButton } from './components/IconButton';
-export type { IconButtonProps } from './components/IconButton';
+export { IconButton, ICON_BUTTON_SIZES } from './components/IconButton';
+export type { IconButtonProps, IconButtonSize } from './components/IconButton';
+export { HeaderButton, HEADER_BUTTON_TYPES } from './components/HeaderButton';
+export type { HeaderButtonProps, HeaderButtonType } from './components/HeaderButton';
 
 export { Divider } from './components/Divider';
 export type { DividerProps } from './components/Divider';
