@@ -35,8 +35,8 @@ export type { FilterChipProps } from './components/FilterChip';
 export { Toggle, TOGGLE_SIZES } from './components/Toggle';
 export type { ToggleProps, ToggleSize } from './components/Toggle';
 
-export { IconButton, ICON_BUTTON_SIZES } from './components/IconButton';
-export type { IconButtonProps, IconButtonSize } from './components/IconButton';
+export { IconButton, ICON_BUTTON_SIZES, ICON_BUTTON_VARIANTS } from './components/IconButton';
+export type { IconButtonProps, IconButtonSize, IconButtonVariant } from './components/IconButton';
 export { HeaderButton, HEADER_BUTTON_TYPES } from './components/HeaderButton';
 export type { HeaderButtonProps, HeaderButtonType } from './components/HeaderButton';
 
