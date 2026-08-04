@@ -66,3 +66,6 @@ export type { OptionButtonProps } from './components/OptionButton';
 export { CarVersionListItem } from './components/CarVersionListItem';
 export type { CarVersionListItemProps } from './components/CarVersionListItem';
 
+export { ButtonLink } from './components/ButtonLink';
+export type { ButtonLinkProps } from './components/ButtonLink';
+
