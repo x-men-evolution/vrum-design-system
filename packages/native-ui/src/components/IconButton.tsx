@@ -4,7 +4,6 @@ import type { LucideIcon } from 'lucide-react-native';
 import {
   ColorActionGhostPressed,
   ColorBorderDefault,
-  ColorBranco,
   ColorBrandDefault,
   ColorSlate700,
   RadiusMd
@@ -39,7 +38,7 @@ export function IconButton({
   badge = false,
   variant = 'outline',
   size = 'md',
-  iconSize = 16,
+  iconSize = 20,
   color = ColorSlate700,
   disabled = false,
   style,
@@ -84,11 +83,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 8,
     right: 9,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: ColorBrandDefault,
-    borderWidth: 2,
-    borderColor: ColorBranco
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: ColorBrandDefault
   }
 });
