@@ -1,13 +1,8 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, ViewStyle } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
-import {
-  ColorActionGhostPressed,
-  ColorBorderDefault,
-  ColorBrandDefault,
-  ColorSlate700,
-  RadiusMd
-} from '@x-men-evolution/design-tokens/native';
+import { ColorSlate700, RadiusMd } from '@x-men-evolution/design-tokens/native';
+import { useTheme } from '../theme/ThemeProvider';
 
 export const ICON_BUTTON_SIZES = ['sm', 'md', 'lg'] as const;
 export type IconButtonSize = (typeof ICON_BUTTON_SIZES)[number];
@@ -44,6 +39,7 @@ export function IconButton({
   style,
   ...props
 }: IconButtonProps) {
+  const theme = useTheme();
   const isOutlined = variant === 'outline';
 
   return (
@@ -54,9 +50,9 @@ export function IconButton({
       style={({ pressed }) => [
         styles.base,
         sizeStyles[size],
-        isOutlined && styles.outlineBorder,
+        isOutlined && [styles.outlineBorder, { borderColor: theme.border.default }],
         {
-          backgroundColor: !isOutlined && pressed ? ColorActionGhostPressed : 'transparent',
+          backgroundColor: !isOutlined && pressed ? theme.action.ghost.pressed : 'transparent',
           opacity: disabled ? 0.4 : 1
         },
         style
@@ -64,7 +60,7 @@ export function IconButton({
       {...props}
     >
       <Icon size={iconSize} color={color} />
-      {badge && <View style={styles.badge} />}
+      {badge && <View style={[styles.badge, { backgroundColor: theme.brand.default }]} />}
     </Pressable>
   );
 }
@@ -76,8 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: RadiusMd
   },
   outlineBorder: {
-    borderWidth: 1,
-    borderColor: ColorBorderDefault
+    borderWidth: 1
   },
   badge: {
     position: 'absolute',
@@ -85,7 +80,6 @@ const styles = StyleSheet.create({
     right: 9,
     width: 8,
     height: 8,
-    borderRadius: 4,
-    backgroundColor: ColorBrandDefault
+    borderRadius: 4
   }
 });

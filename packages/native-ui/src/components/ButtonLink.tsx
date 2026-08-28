@@ -6,12 +6,9 @@ import type {
   ViewStyle,
 } from "react-native";
 import type { LucideIcon } from "lucide-react-native";
-import {
-  ColorTextBrand,
-  ColorTextDisabled,
-  SpacingXs,
-} from "@x-men-evolution/design-tokens/native";
+import { SpacingXs } from "@x-men-evolution/design-tokens/native";
 import { textVariants } from "../internal/typography";
+import { useTheme } from "../theme/ThemeProvider";
 
 export type ButtonLinkProps = Omit<PressableProps, "style" | "children"> & {
   children: string;
@@ -28,7 +25,8 @@ export function ButtonLink({
   style,
   ...props
 }: ButtonLinkProps) {
-  const color = disabled ? ColorTextDisabled : ColorTextBrand;
+  const theme = useTheme();
+  const color = disabled ? theme.text.disabled : theme.text.brand;
 
   return (
     <Pressable

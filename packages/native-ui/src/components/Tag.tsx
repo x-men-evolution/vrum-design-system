@@ -1,32 +1,10 @@
 import { StyleSheet, Text as RNText, View } from 'react-native';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import {
-  ColorBranco,
-  ColorChipDanger,
-  ColorChipDefault,
-  ColorChipInfo,
-  ColorChipLightDangerBackground,
-  ColorChipLightDangerText,
-  ColorChipLightDefaultBackground,
-  ColorChipLightDefaultText,
-  ColorChipLightInfoBackground,
-  ColorChipLightInfoText,
-  ColorChipLightNeutralBackground,
-  ColorChipLightNeutralText,
-  ColorChipLightPrimaryBackground,
-  ColorChipLightPrimaryText,
-  ColorChipLightSuccessBackground,
-  ColorChipLightSuccessText,
-  ColorChipLightWarningBackground,
-  ColorChipLightWarningText,
-  ColorChipNeutral,
-  ColorChipPrimary,
-  ColorChipSuccess,
-  ColorChipWarning,
-  ColorTextInverse,
-  RadiusSm
-} from '@x-men-evolution/design-tokens/native';
+import { useMemo } from 'react';
+import { ColorBranco, RadiusSm } from '@x-men-evolution/design-tokens/native';
+import type { VrumTheme } from '@x-men-evolution/design-tokens/themes';
 import { textVariants } from '../internal/typography';
+import { useTheme } from '../theme/ThemeProvider';
 
 export const TAG_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'neutral', 'info'] as const;
 export const TAG_SIZES = ['sm', 'md', 'lg'] as const;
@@ -44,45 +22,57 @@ export type TagProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-const solidBackgrounds: Record<TagColor, string> = {
-  default: ColorChipDefault,
-  primary: ColorChipPrimary,
-  success: ColorChipSuccess,
-  warning: ColorChipWarning,
-  danger: ColorChipDanger,
-  neutral: ColorChipNeutral,
-  info: ColorChipInfo
-};
+type TagPalette = { background: Record<TagColor, string>; text: Record<TagColor, string> };
 
-const solidText: Record<TagColor, string> = {
-  default: ColorTextInverse,
-  primary: ColorTextInverse,
-  success: ColorTextInverse,
-  warning: ColorTextInverse,
-  danger: ColorTextInverse,
-  neutral: ColorBranco,
-  info: ColorTextInverse
-};
+function buildPalette(theme: VrumTheme, variant: TagVariant): TagPalette {
+  if (variant === 'light') {
+    const light = theme.chip.light;
+    return {
+      background: {
+        default: light.default.background,
+        primary: light.primary.background,
+        success: light.success.background,
+        warning: light.warning.background,
+        danger: light.danger.background,
+        neutral: light.neutral.background,
+        info: light.info.background
+      },
+      text: {
+        default: light.default.text,
+        primary: light.primary.text,
+        success: light.success.text,
+        warning: light.warning.text,
+        danger: light.danger.text,
+        neutral: light.neutral.text,
+        info: light.info.text
+      }
+    };
+  }
 
-const lightBackgrounds: Record<TagColor, string> = {
-  default: ColorChipLightDefaultBackground,
-  primary: ColorChipLightPrimaryBackground,
-  success: ColorChipLightSuccessBackground,
-  warning: ColorChipLightWarningBackground,
-  danger: ColorChipLightDangerBackground,
-  neutral: ColorChipLightNeutralBackground,
-  info: ColorChipLightInfoBackground
-};
-
-const lightText: Record<TagColor, string> = {
-  default: ColorChipLightDefaultText,
-  primary: ColorChipLightPrimaryText,
-  success: ColorChipLightSuccessText,
-  warning: ColorChipLightWarningText,
-  danger: ColorChipLightDangerText,
-  neutral: ColorChipLightNeutralText,
-  info: ColorChipLightInfoText
-};
+  // No sólido só `neutral` foge do texto invertido: o cinza do chip não tem
+  // contraste suficiente com o off-white de `text/inverse`.
+  const inverse = theme.text.inverse;
+  return {
+    background: {
+      default: theme.chip.default,
+      primary: theme.chip.primary,
+      success: theme.chip.success,
+      warning: theme.chip.warning,
+      danger: theme.chip.danger,
+      neutral: theme.chip.neutral,
+      info: theme.chip.info
+    },
+    text: {
+      default: inverse,
+      primary: inverse,
+      success: inverse,
+      warning: inverse,
+      danger: inverse,
+      neutral: ColorBranco,
+      info: inverse
+    }
+  };
+}
 
 const sizeStyles: Record<TagSize, ViewStyle> = {
   sm: { paddingHorizontal: 8, paddingVertical: 1 },
@@ -97,8 +87,10 @@ const textSizeStyles: Record<TagSize, TextStyle> = {
 };
 
 export function Tag({ children, color = 'default', size = 'sm', variant = 'solid', style }: TagProps) {
-  const backgroundColor = variant === 'light' ? lightBackgrounds[color] : solidBackgrounds[color];
-  const textColor = variant === 'light' ? lightText[color] : solidText[color];
+  const theme = useTheme();
+  const palette = useMemo(() => buildPalette(theme, variant), [theme, variant]);
+  const backgroundColor = palette.background[color];
+  const textColor = palette.text[color];
 
   return (
     <View

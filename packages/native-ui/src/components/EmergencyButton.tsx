@@ -1,12 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import type { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
 import {
-  ColorActionDefault,
-  ColorActionDisabled,
-  ColorActionHover,
   ColorBranco,
   ColorSlate200,
-  ColorTextDisabled,
   RadiusLg,
   SpacingLg,
   SpacingSm
@@ -14,6 +10,7 @@ import {
 import { ChevronRightIcon } from '../icons/ChevronRightIcon';
 import { ShieldAlertIcon } from '../icons/ShieldAlertIcon';
 import { textVariants } from '../internal/typography';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type EmergencyButtonProps = {
   title?: string;
@@ -32,8 +29,9 @@ export function EmergencyButton({
   style,
   testID
 }: EmergencyButtonProps) {
-  const badgeColor = disabled ? ColorSlate200 : ColorActionHover;
-  const contentColor = disabled ? ColorTextDisabled : ColorBranco;
+  const theme = useTheme();
+  const badgeColor = disabled ? ColorSlate200 : theme.action.hover;
+  const contentColor = disabled ? theme.text.disabled : ColorBranco;
 
   return (
     <Pressable
@@ -45,7 +43,13 @@ export function EmergencyButton({
       testID={testID}
       style={({ pressed }) => [
         styles.container,
-        { backgroundColor: disabled ? ColorActionDisabled : pressed ? ColorActionHover : ColorActionDefault },
+        {
+          backgroundColor: disabled
+            ? theme.action.disabled
+            : pressed
+              ? theme.action.hover
+              : theme.action.default
+        },
         style
       ]}
     >

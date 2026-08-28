@@ -1,19 +1,11 @@
-import { Fragment } from 'react';
+import { Fragment, useMemo } from 'react';
 import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import {
-  ColorBorderBrand,
-  ColorBorderDefault,
-  ColorBorderStrong,
-  ColorBorderSubtle,
   ColorBranco,
-  ColorPrimary50,
-  ColorPrimary500,
-  ColorPrimary700,
   ColorSecondary300,
   ColorSecondary50,
   ColorSecondary500,
-  ColorTextDefault,
   RadiusMd,
   SpacingMd,
   TextStyleLabelMediumBoldFontSize,
@@ -25,6 +17,8 @@ import {
   TextStyleLabelMediumLetterSpacing,
   TextStyleLabelMediumLineHeight
 } from '@x-men-evolution/design-tokens/native';
+import type { VrumTheme } from '@x-men-evolution/design-tokens/themes';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type CarVersionListItemProps = Omit<PressableProps, 'style' | 'children'> & {
   title: string;
@@ -37,29 +31,41 @@ export type CarVersionListItemProps = Omit<PressableProps, 'style' | 'children'>
 
 type ItemState = 'default' | 'selected' | 'disabled';
 
-const containerStateStyles: Record<ItemState, ViewStyle> = {
-  default: { backgroundColor: ColorBranco, borderWidth: 1, borderColor: ColorBorderDefault },
-  selected: { backgroundColor: ColorPrimary50, borderWidth: 2, borderColor: ColorBorderBrand },
-  disabled: { backgroundColor: ColorSecondary50, borderWidth: 1, borderColor: ColorBorderSubtle }
+type ItemPalette = {
+  container: Record<ItemState, ViewStyle>;
+  radio: Record<ItemState, ViewStyle>;
+  title: Record<ItemState, string>;
+  metadata: Record<ItemState, string>;
 };
 
-const radioStateStyles: Record<ItemState, ViewStyle> = {
-  default: { borderWidth: 1, borderColor: ColorSecondary300 },
-  selected: { borderWidth: 2, borderColor: ColorBorderBrand },
-  disabled: { borderWidth: 1, borderColor: ColorSecondary300 }
-};
-
-const titleColors: Record<ItemState, string> = {
-  default: ColorTextDefault,
-  selected: ColorPrimary700,
-  disabled: ColorBorderStrong
-};
-
-const metadataColors: Record<ItemState, string> = {
-  default: ColorSecondary500,
-  selected: ColorPrimary500,
-  disabled: ColorBorderStrong
-};
+function buildPalette(theme: VrumTheme): ItemPalette {
+  return {
+    container: {
+      default: { backgroundColor: ColorBranco, borderWidth: 1, borderColor: theme.border.default },
+      selected: {
+        backgroundColor: theme.action.ghost.hover,
+        borderWidth: 2,
+        borderColor: theme.border.brand
+      },
+      disabled: { backgroundColor: ColorSecondary50, borderWidth: 1, borderColor: theme.border.subtle }
+    },
+    radio: {
+      default: { borderWidth: 1, borderColor: ColorSecondary300 },
+      selected: { borderWidth: 2, borderColor: theme.border.brand },
+      disabled: { borderWidth: 1, borderColor: ColorSecondary300 }
+    },
+    title: {
+      default: theme.text.default,
+      selected: theme.text.brand,
+      disabled: theme.border.strong
+    },
+    metadata: {
+      default: ColorSecondary500,
+      selected: theme.brand['500'],
+      disabled: theme.border.strong
+    }
+  };
+}
 
 export function CarVersionListItem({
   title,
@@ -69,6 +75,8 @@ export function CarVersionListItem({
   style,
   ...props
 }: CarVersionListItemProps) {
+  const theme = useTheme();
+  const palette = useMemo(() => buildPalette(theme), [theme]);
   const state: ItemState = disabled ? 'disabled' : selected ? 'selected' : 'default';
 
   return (
@@ -76,13 +84,13 @@ export function CarVersionListItem({
       accessibilityRole="radio"
       accessibilityState={{ selected, disabled }}
       disabled={disabled}
-      style={[styles.base, containerStateStyles[state], style]}
+      style={[styles.base, palette.container[state], style]}
       {...props}
     >
-      <View style={[styles.radio, radioStateStyles[state]]} />
+      <View style={[styles.radio, palette.radio[state]]} />
       <View style={styles.content}>
         <RNText
-          style={[state === 'default' ? styles.title : styles.titleBold, { color: titleColors[state] }]}
+          style={[state === 'default' ? styles.title : styles.titleBold, { color: palette.title[state] }]}
           numberOfLines={1}
         >
           {title}
@@ -90,8 +98,8 @@ export function CarVersionListItem({
         <View style={styles.metadataRow}>
           {metadata.map((item, index) => (
             <Fragment key={`${item}-${index}`}>
-              {index > 0 && <View style={[styles.dot, { backgroundColor: metadataColors[state] }]} />}
-              <RNText style={[styles.metadataText, { color: metadataColors[state] }]}>{item}</RNText>
+              {index > 0 && <View style={[styles.dot, { backgroundColor: palette.metadata[state] }]} />}
+              <RNText style={[styles.metadataText, { color: palette.metadata[state] }]}>{item}</RNText>
             </Fragment>
           ))}
         </View>

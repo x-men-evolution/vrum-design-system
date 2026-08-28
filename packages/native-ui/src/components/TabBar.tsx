@@ -3,18 +3,16 @@ import type { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
 import { Car, ChartNoAxesColumn, House, MessageCircleMore, User, Wrench } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import {
-  ColorActionDefault,
-  ColorActionHover,
   ColorBorderDefault,
   ColorBranco,
   ColorSlate400,
-  ColorTextBrand,
   RadiusFull,
   SpacingLg,
   SpacingMd
 } from '@x-men-evolution/design-tokens/native';
 import { EmergencyPhoneIcon } from '../icons/EmergencyPhoneIcon';
 import { textVariants } from '../internal/typography';
+import { useTheme } from '../theme/ThemeProvider';
 
 export const TAB_BAR_VARIANTS = ['default', 'provider'] as const;
 export type TabBarVariant = (typeof TAB_BAR_VARIANTS)[number];
@@ -58,7 +56,8 @@ function TabItem({
   active: boolean;
   onPress?: (tab: TabBarTabKey) => void;
 }) {
-  const color = active ? ColorTextBrand : ColorSlate400;
+  const theme = useTheme();
+  const color = active ? theme.text.brand : ColorSlate400;
   return (
     <Pressable
       accessibilityRole="button"
@@ -81,6 +80,7 @@ export function TabBar({
   onEmergencyPress,
   style
 }: TabBarProps) {
+  const theme = useTheme();
   const isProvider = variant === 'provider';
   const tabs = isProvider ? PROVIDER_TABS : DEFAULT_TABS;
   const middleIndex = Math.ceil(tabs.length / 2);
@@ -97,7 +97,10 @@ export function TabBar({
             accessibilityRole="button"
             accessibilityLabel="Socorro emergencial"
             onPress={onEmergencyPress}
-            style={({ pressed }) => [styles.emergencyButton, pressed && styles.emergencyButtonPressed]}
+            style={({ pressed }) => [
+              styles.emergencyButton,
+              { backgroundColor: pressed ? theme.action.hover : theme.action.default }
+            ]}
           >
             <EmergencyPhoneIcon size={48} color={ColorBranco} />
           </Pressable>
@@ -139,7 +142,6 @@ const styles = StyleSheet.create({
     // "corta" a linha divisória em vez de ficar contido nela).
     marginTop: -SpacingLg,
     borderRadius: RadiusFull,
-    backgroundColor: ColorActionDefault,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -147,8 +149,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 8
-  },
-  emergencyButtonPressed: {
-    backgroundColor: ColorActionHover
   }
 });
