@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { X } from 'lucide-react-native';
 import { IconButton } from '../IconButton';
 
@@ -30,15 +31,13 @@ describe('IconButton', () => {
 
   it('defaults to the outline variant', async () => {
     await render(<IconButton icon={X} accessibilityLabel="Fechar" />);
-    const style = screen.getByRole('button').props.style([]);
-    const flattened = Object.assign({}, ...style.filter(Boolean));
-    expect(flattened.borderWidth).toBe(1);
+    const style = StyleSheet.flatten(screen.getByRole('button').props.style);
+    expect(style.borderWidth).toBe(1);
   });
 
   it('renders the ghost variant without a border', async () => {
     await render(<IconButton icon={X} variant="ghost" accessibilityLabel="Fechar" />);
-    const style = screen.getByRole('button').props.style([]);
-    const flattened = Object.assign({}, ...style.filter(Boolean));
-    expect(flattened.borderWidth).toBeUndefined();
+    const style = StyleSheet.flatten(screen.getByRole('button').props.style);
+    expect(style.borderWidth).toBeUndefined();
   });
 });
