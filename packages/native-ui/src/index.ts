@@ -1,4 +1,13 @@
 // Componentes mobile (React Native) do VRUM Design System.
+
+// Tema: um app só precisa montar o provider se quiser fugir da marca padrão
+// (cliente). Os temas vêm de design-tokens e são reexportados aqui para o app
+// não precisar depender do pacote de tokens só para trocar de marca.
+export { VrumThemeProvider, useTheme } from './theme/ThemeProvider';
+export type { VrumThemeProviderProps } from './theme/ThemeProvider';
+export { defaultTheme, prestadorTheme, themes } from '@x-men-evolution/design-tokens/themes';
+export type { VrumTheme, VrumThemeName } from '@x-men-evolution/design-tokens/themes';
+
 export { EmergencyButton } from './components/EmergencyButton';
 export type { EmergencyButtonProps } from './components/EmergencyButton';
 

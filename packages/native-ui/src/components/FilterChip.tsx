@@ -1,19 +1,9 @@
 import { Pressable, StyleSheet, Text as RNText } from 'react-native';
 import type { GestureResponderEvent, NativeSyntheticEvent, PressableProps, StyleProp, TargetedEvent, ViewStyle } from 'react-native';
-import {
-  ColorActionDefault,
-  ColorActionDisabled,
-  ColorActionGhostHover,
-  ColorActionHover,
-  ColorActionText,
-  ColorBorderBrand,
-  ColorBorderFocus,
-  ColorTextBrand,
-  ColorTextSecondary,
-  RadiusFull
-} from '@x-men-evolution/design-tokens/native';
+import { RadiusFull } from '@x-men-evolution/design-tokens/native';
 import { textVariants } from '../internal/typography';
 import { useFocusState } from '../internal/useFocusState';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type FilterChipProps = Omit<PressableProps, 'style' | 'children'> & {
   children: string;
@@ -32,6 +22,7 @@ export function FilterChip({
   onBlur,
   ...props
 }: FilterChipProps) {
+  const theme = useTheme();
   const { isFocused, handleFocus, handleBlur } =
     useFocusState<NativeSyntheticEvent<TargetedEvent>>(onFocus ?? undefined, onBlur ?? undefined);
 
@@ -45,15 +36,15 @@ export function FilterChip({
       style={({ pressed }) => [
         styles.base,
         disabled
-          ? styles.disabled
+          ? { backgroundColor: theme.action.disabled }
           : selected
-            ? { backgroundColor: pressed ? ColorActionHover : ColorActionDefault }
+            ? { backgroundColor: pressed ? theme.action.hover : theme.action.default }
             : [
                 styles.outlineBorder,
                 {
-                  borderColor: isFocused ? ColorBorderFocus : ColorBorderBrand,
+                  borderColor: isFocused ? theme.border.focus : theme.border.brand,
                   borderWidth: isFocused ? 2 : 1,
-                  backgroundColor: pressed ? ColorActionGhostHover : 'transparent'
+                  backgroundColor: pressed ? theme.action.ghost.hover : 'transparent'
                 }
               ],
         style
@@ -63,7 +54,13 @@ export function FilterChip({
       <RNText
         style={[
           textVariants.labelMedium,
-          { color: disabled ? ColorTextSecondary : selected ? ColorActionText : ColorTextBrand }
+          {
+            color: disabled
+              ? theme.text.secondary
+              : selected
+                ? theme.action.text
+                : theme.text.brand
+          }
         ]}
       >
         {children}
@@ -75,7 +72,6 @@ export function FilterChip({
 const styles = StyleSheet.create<{
   base: ViewStyle;
   outlineBorder: ViewStyle;
-  disabled: ViewStyle;
 }>({
   base: {
     height: 24,
@@ -88,8 +84,5 @@ const styles = StyleSheet.create<{
   },
   outlineBorder: {
     borderWidth: 1
-  },
-  disabled: {
-    backgroundColor: ColorActionDisabled
   }
 });

@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, ViewStyle } from 'react-native';
 import { ArrowLeft, X } from 'lucide-react-native';
-import { ColorPrimary700, SpacingXs } from '@x-men-evolution/design-tokens/native';
+import { SpacingXs } from '@x-men-evolution/design-tokens/native';
+import { useTheme } from '../theme/ThemeProvider';
 import { Text } from './Text';
 
 export const HEADER_BUTTON_TYPES = ['voltar', 'fechar'] as const;
@@ -24,14 +25,15 @@ const labels = {
 };
 
 export function HeaderButton({ type = 'voltar', style, ...props }: HeaderButtonProps) {
+  const theme = useTheme();
   const Icon = icons[type];
 
   return (
     <Pressable accessibilityRole="button" accessibilityLabel={labels[type]} style={[styles.base, style]} {...props}>
       <View style={styles.icon}>
-        <Icon size={18} color={ColorPrimary700} />
+        <Icon size={18} color={theme.text.brand} />
       </View>
-      <Text variant="labelLargeBold" style={{ color: ColorPrimary700 }}>
+      <Text variant="labelLargeBold" style={{ color: theme.text.brand }}>
         {labels[type]}
       </Text>
     </Pressable>

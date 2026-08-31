@@ -1,16 +1,10 @@
 {
   "color": {
-    "brand": {
-      "light": { "value": "{color.primary.100}" },
-      "default": { "value": "{color.primary.700}" },
-      "dark": { "value": "{color.primary.900}" }
-    },
     "text": {
       "default": { "value": "{color.secondary.900}" },
       "secondary": { "value": "{color.secondary.600}" },
       "disabled": { "value": "{color.secondary.300}" },
       "inverse": { "value": "{color.secondary.50}" },
-      "brand": { "value": "{color.primary.700}" },
       "danger": { "value": "{color.primary.600}" }
     },
     "bg": {
@@ -23,20 +17,12 @@
       "default": { "value": "{color.secondary.200}" },
       "subtle": { "value": "{color.secondary.100}" },
       "strong": { "value": "{color.secondary.400}" },
-      "brand": { "value": "{color.primary.700}" },
       "focus": { "value": "{color.slate.300}" },
       "error": { "value": "{color.primary.500}" }
     },
     "action": {
-      "default": { "value": "{color.primary.700}" },
-      "hover": { "value": "{color.primary.800}" },
-      "pressed": { "value": "{color.primary.900}" },
       "disabled": { "value": "{color.secondary.100}" },
       "text": { "value": "{color.secondary.50}" },
-      "ghost": {
-        "hover": { "value": "{color.primary.50}" },
-        "pressed": { "value": "{color.primary.100}" }
-      },
       "destructive": {
         "default": { "value": "{color.primary.800}" },
         "hover": { "value": "{color.primary.900}" },
@@ -45,10 +31,9 @@
     },
     "chip": {
       "default": { "value": "{color.slate.900}" },
-      "primary": { "value": "{color.primary.700}" },
       "success": { "value": "{color.emerald.600}" },
       "warning": { "value": "{color.amber.400}" },
-      "danger": { "value": "{color.primary.900}" },
+      "danger": { "value": "{color.primary.950}" },
       "neutral": { "value": "{color.slate.500}" },
       "info": { "value": "{color.blue.500}" },
       "light": {
@@ -57,8 +42,7 @@
           "text": { "value": "{color.slate.900}" }
         },
         "primary": {
-          "background": { "value": "{color.chipTint.primaryBg}" },
-          "text": { "value": "{color.primary.700}" }
+          "background": { "value": "{color.chipTint.primaryBg}" }
         },
         "success": {
           "background": { "value": "{color.chipTint.successBg}" },

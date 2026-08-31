@@ -119,38 +119,96 @@ StyleDictionary.registerFormat({
     `${tailwindThemeHeader}declare const theme: ${toTsType(buildTailwindTheme(dictionary))};\nexport default theme;\n`
 });
 
-export default {
-  source: ['tokens/**/*.json'],
-  platforms: {
-    css: {
-      transformGroup: 'css',
-      transforms: ['vrum/size/px'],
-      buildPath: 'dist/css/',
-      files: [
-        {
-          destination: 'variables.css',
-          format: 'css/variables',
-          options: { outputReferences: true }
-        }
-      ]
-    },
-    js: {
-      transformGroup: 'js',
-      buildPath: 'dist/js/',
-      files: [
-        { destination: 'index.js', format: 'javascript/es6' },
-        { destination: 'index.d.ts', format: 'typescript/es6-declarations' }
-      ]
-    },
-    tailwind: {
-      transformGroup: 'css',
-      transforms: ['vrum/size/px'],
-      buildPath: 'dist/tailwind/',
-      files: [
-        { destination: 'theme.js', format: 'tailwind/theme' },
-        { destination: 'theme.cjs', format: 'tailwind/theme-cjs' },
-        { destination: 'theme.d.ts', format: 'tailwind/theme-declaration' }
-      ]
-    }
+// Grupos de `color.*` que compõem a camada semântica — o que um componente
+// tem permissão de consumir. Fora daqui ficam as ramps primitivas (primary,
+// slate, emerald, …), que não entram no tema: o mode troca para onde o
+// semântico aponta, nunca o valor da primitiva. Ver tokens/README.md.
+export const SEMANTIC_GROUPS = ['brand', 'text', 'bg', 'border', 'action', 'chip'];
+
+export const MODES = ['default', 'prestador'];
+
+function buildTheme(dictionary) {
+  const theme = {};
+  for (const group of SEMANTIC_GROUPS) {
+    theme[group] = toPlainObject(dictionary.tokens.color[group]);
   }
-};
+  return theme;
+}
+
+const themeHeader =
+  '/**\n * Do not edit directly, this file was auto-generated.\n * Tema semântico por mode — consumido via VrumThemeProvider (native-ui).\n */\n';
+
+StyleDictionary.registerFormat({
+  name: 'vrum/theme-module',
+  format: ({ dictionary }) =>
+    `${themeHeader}export default ${JSON.stringify(buildTheme(dictionary), null, 2)};\n`
+});
+
+// tailwind.config.js é CommonJS (Metro/NativeWind carregam via require) e o
+// pacote é "type": "module" — mesma razão pela qual `theme.cjs` existe ao lado
+// de `theme.js`. Sem esta saída, um app não consegue derivar suas classes de
+// marca do tema.
+StyleDictionary.registerFormat({
+  name: 'vrum/theme-module-cjs',
+  format: ({ dictionary }) =>
+    `${themeHeader}module.exports = ${JSON.stringify(buildTheme(dictionary), null, 2)};\n`
+});
+
+// Exposto para o build.js gerar o `index.d.ts` de dist/themes a partir da
+// mesma forma que o format acima serializa.
+export { buildTheme, toTsType };
+
+// As saídas legadas (css/js/tailwind) representam o mode `default`: é o que o
+// vrum-mobile já consome hoje como constante. Só o mode default as emite —
+// se o prestador também emitisse, a segunda passada sobrescreveria a primeira.
+export function makeConfig(mode) {
+  const isDefault = mode === 'default';
+
+  return {
+    source: ['tokens/*.json', `tokens/modes/${mode}.json`],
+    platforms: {
+      ...(isDefault && {
+        css: {
+          transformGroup: 'css',
+          transforms: ['vrum/size/px'],
+          buildPath: 'dist/css/',
+          files: [
+            {
+              destination: 'variables.css',
+              format: 'css/variables',
+              options: { outputReferences: true }
+            }
+          ]
+        },
+        js: {
+          transformGroup: 'js',
+          buildPath: 'dist/js/',
+          files: [
+            { destination: 'index.js', format: 'javascript/es6' },
+            { destination: 'index.d.ts', format: 'typescript/es6-declarations' }
+          ]
+        },
+        tailwind: {
+          transformGroup: 'css',
+          transforms: ['vrum/size/px'],
+          buildPath: 'dist/tailwind/',
+          files: [
+            { destination: 'theme.js', format: 'tailwind/theme' },
+            { destination: 'theme.cjs', format: 'tailwind/theme-cjs' },
+            { destination: 'theme.d.ts', format: 'tailwind/theme-declaration' }
+          ]
+        }
+      }),
+      theme: {
+        transformGroup: 'js',
+        buildPath: 'dist/themes/',
+        files: [
+          { destination: `${mode}.js`, format: 'vrum/theme-module' },
+          { destination: `${mode}.cjs`, format: 'vrum/theme-module-cjs' }
+        ]
+      }
+    }
+  };
+}
+
+export default makeConfig('default');

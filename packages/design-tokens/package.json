@@ -1,6 +1,6 @@
 {
   "name": "@x-men-evolution/design-tokens",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Design tokens do VRUM Design System (fonte: Figma variables/styles)",
   "license": "UNLICENSED",
   "repository": {
@@ -29,15 +29,21 @@
     "./native": {
       "types": "./dist/js/index.d.ts",
       "default": "./dist/js/index.js"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "require": "./dist/themes/index.cjs",
+      "import": "./dist/themes/index.js",
+      "default": "./dist/themes/index.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "style-dictionary build --config sd.config.js",
+    "build": "node build.js",
     "clean": "rm -rf dist",
-    "lint": "eslint sd.config.js"
+    "lint": "eslint sd.config.js build.js"
   },
   "devDependencies": {
     "style-dictionary": "^4.4.0"

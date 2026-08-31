@@ -1,25 +1,17 @@
+import { useMemo } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import {
-  ColorActionDefault,
-  ColorActionDestructiveDefault,
-  ColorActionDestructivePressed,
-  ColorActionDisabled,
-  ColorActionGhostPressed,
-  ColorActionPressed,
-  ColorBgSurface,
-  ColorBorderBrand,
   ColorSecondary300,
   ColorSecondary800,
-  ColorTextBrand,
-  ColorTextDisabled,
-  ColorTextInverse,
   RadiusMd,
   SpacingMd,
   SpacingSm,
   SpacingXl
 } from '@x-men-evolution/design-tokens/native';
+import type { VrumTheme } from '@x-men-evolution/design-tokens/themes';
 import { textVariants } from '../internal/typography';
+import { useTheme } from '../theme/ThemeProvider';
 
 export const BUTTON_VARIANTS = ['primary', 'secondary', 'outline', 'ghost', 'destructive'] as const;
 export const BUTTON_SIZES = ['sm', 'md', 'lg'] as const;
@@ -44,34 +36,36 @@ type VariantColors = {
   border?: string;
 };
 
-const variantColors: Record<ButtonVariant, VariantColors> = {
-  primary: {
-    background: ColorActionDefault,
-    backgroundPressed: ColorActionPressed,
-    text: ColorTextInverse
-  },
-  secondary: {
-    background: ColorBgSurface,
-    backgroundPressed: ColorSecondary300,
-    text: ColorSecondary800
-  },
-  outline: {
-    background: 'transparent',
-    backgroundPressed: ColorActionGhostPressed,
-    text: ColorTextBrand,
-    border: ColorBorderBrand
-  },
-  ghost: {
-    background: 'transparent',
-    backgroundPressed: ColorActionGhostPressed,
-    text: ColorTextBrand
-  },
-  destructive: {
-    background: ColorActionDestructiveDefault,
-    backgroundPressed: ColorActionDestructivePressed,
-    text: ColorTextInverse
-  }
-};
+function buildVariantColors(theme: VrumTheme): Record<ButtonVariant, VariantColors> {
+  return {
+    primary: {
+      background: theme.action.default,
+      backgroundPressed: theme.action.pressed,
+      text: theme.text.inverse
+    },
+    secondary: {
+      background: theme.bg.surface,
+      backgroundPressed: ColorSecondary300,
+      text: ColorSecondary800
+    },
+    outline: {
+      background: 'transparent',
+      backgroundPressed: theme.action.ghost.pressed,
+      text: theme.text.brand,
+      border: theme.border.brand
+    },
+    ghost: {
+      background: 'transparent',
+      backgroundPressed: theme.action.ghost.pressed,
+      text: theme.text.brand
+    },
+    destructive: {
+      background: theme.action.destructive.default,
+      backgroundPressed: theme.action.destructive.pressed,
+      text: theme.text.inverse
+    }
+  };
+}
 
 const sizeStyles = StyleSheet.create({
   lg: { height: 56, paddingHorizontal: SpacingXl },
@@ -94,11 +88,16 @@ export function Button({
   style,
   ...props
 }: ButtonProps) {
-  const colors = variantColors[variant];
+  const theme = useTheme();
+  const colors = useMemo(() => buildVariantColors(theme), [theme])[variant];
   const isOutlined = variant === 'outline';
   const isDisabled = disabled || loading;
 
-  const textColor = isDisabled ? (isOutlined || variant === 'ghost' ? colors.text : ColorTextDisabled) : colors.text;
+  const textColor = isDisabled
+    ? isOutlined || variant === 'ghost'
+      ? colors.text
+      : theme.text.disabled
+    : colors.text;
 
   return (
     <Pressable
@@ -113,7 +112,7 @@ export function Button({
           backgroundColor: isDisabled
             ? isOutlined || variant === 'ghost'
               ? 'transparent'
-              : ColorActionDisabled
+              : theme.action.disabled
             : pressed
               ? colors.backgroundPressed
               : colors.background,

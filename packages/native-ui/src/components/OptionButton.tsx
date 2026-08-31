@@ -2,12 +2,9 @@ import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import {
-  ColorActionDisabled,
-  ColorActionGhostHover,
   ColorBranco,
   ColorSecondary500,
   ColorSlate700,
-  ColorTextDisabled,
   RadiusXl,
   SpacingMd,
   TextStyleBodyMediumBoldFontSize,
@@ -19,6 +16,7 @@ import {
   TextStyleLabelSmallLetterSpacing,
   TextStyleLabelSmallLineHeight
 } from '@x-men-evolution/design-tokens/native';
+import { useTheme } from '../theme/ThemeProvider';
 
 export type OptionButtonProps = Omit<PressableProps, 'style' | 'children'> & {
   icon: LucideIcon;
@@ -39,8 +37,9 @@ export function OptionButton({
   style,
   ...props
 }: OptionButtonProps) {
-  const contentColor = disabled ? ColorTextDisabled : ColorSlate700;
-  const descriptionColor = disabled ? ColorTextDisabled : ColorSecondary500;
+  const theme = useTheme();
+  const contentColor = disabled ? theme.text.disabled : ColorSlate700;
+  const descriptionColor = disabled ? theme.text.disabled : ColorSecondary500;
 
   return (
     <Pressable
@@ -50,7 +49,11 @@ export function OptionButton({
       style={({ pressed }) => [
         styles.base,
         {
-          backgroundColor: disabled ? ColorActionDisabled : pressed ? ColorActionGhostHover : ColorBranco
+          backgroundColor: disabled
+            ? theme.action.disabled
+            : pressed
+              ? theme.action.ghost.hover
+              : ColorBranco
         },
         style
       ]}

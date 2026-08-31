@@ -1,18 +1,10 @@
 import { Pressable, StyleSheet, Text as RNText } from 'react-native';
 import type { GestureResponderEvent, PressableProps, StyleProp, ViewStyle } from 'react-native';
-import {
-  ColorActionDisabled,
-  ColorActionGhostHover,
-  ColorBorderDefault,
-  ColorTextBrand,
-  ColorTextDisabled,
-  ColorTextSecondary,
-  RadiusMd,
-  SpacingSm
-} from '@x-men-evolution/design-tokens/native';
+import { RadiusMd, SpacingSm } from '@x-men-evolution/design-tokens/native';
 import { FIELD_SIZES, fieldHeights, fieldPaddings } from '../internal/fieldMetrics';
 import type { FieldSize } from '../internal/fieldMetrics';
 import { textVariants } from '../internal/typography';
+import { useTheme } from '../theme/ThemeProvider';
 
 export const TOGGLE_SIZES = FIELD_SIZES;
 export type ToggleSize = FieldSize;
@@ -34,6 +26,8 @@ export function Toggle({
   style,
   ...props
 }: ToggleProps) {
+  const theme = useTheme();
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -43,10 +37,10 @@ export function Toggle({
         styles.base,
         { height: fieldHeights[size], paddingHorizontal: fieldPaddings[size] },
         disabled
-          ? styles.disabled
+          ? { backgroundColor: theme.action.disabled }
           : selected
-            ? styles.selected
-            : styles.outlineBorder,
+            ? { backgroundColor: theme.action.ghost.hover }
+            : { borderColor: theme.border.default },
         style
       ]}
       {...props}
@@ -54,7 +48,13 @@ export function Toggle({
       <RNText
         style={[
           textVariants.labelLarge,
-          { color: disabled ? ColorTextDisabled : selected ? ColorTextBrand : ColorTextSecondary }
+          {
+            color: disabled
+              ? theme.text.disabled
+              : selected
+                ? theme.text.brand
+                : theme.text.secondary
+          }
         ]}
       >
         {children}
@@ -63,12 +63,7 @@ export function Toggle({
   );
 }
 
-const styles = StyleSheet.create<{
-  base: ViewStyle;
-  outlineBorder: ViewStyle;
-  selected: ViewStyle;
-  disabled: ViewStyle;
-}>({
+const styles = StyleSheet.create<{ base: ViewStyle }>({
   base: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -80,14 +75,5 @@ const styles = StyleSheet.create<{
     // ao trocar de estado.
     borderWidth: 1,
     borderColor: 'transparent'
-  },
-  outlineBorder: {
-    borderColor: ColorBorderDefault
-  },
-  selected: {
-    backgroundColor: ColorActionGhostHover
-  },
-  disabled: {
-    backgroundColor: ColorActionDisabled
   }
 });
