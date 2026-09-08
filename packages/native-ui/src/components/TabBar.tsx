@@ -1,10 +1,11 @@
 import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import type { GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
-import { Car, ChartNoAxesColumn, House, MessageCircleMore, User, Wrench } from 'lucide-react-native';
+import { Car, ChartNoAxesColumn, House, MessageCircleMore, Search, User, Wrench } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import {
   ColorBorderDefault,
   ColorBranco,
+  ColorPrimary700,
   ColorSlate400,
   RadiusFull,
   SpacingLg,
@@ -14,12 +15,13 @@ import { EmergencyPhoneIcon } from '../icons/EmergencyPhoneIcon';
 import { textVariants } from '../internal/typography';
 import { useTheme } from '../theme/ThemeProvider';
 
-export const TAB_BAR_VARIANTS = ['default', 'provider'] as const;
+export const TAB_BAR_VARIANTS = ['default', 'provider', 'lojista'] as const;
 export type TabBarVariant = (typeof TAB_BAR_VARIANTS)[number];
 
 export type DefaultTabKey = 'inicio' | 'servicos' | 'garagem' | 'perfil';
 export type ProviderTabKey = 'inicio' | 'chamados' | 'chat' | 'relatorios' | 'perfil';
-export type TabBarTabKey = DefaultTabKey | ProviderTabKey;
+export type LojistaTabKey = 'inicio' | 'estoque' | 'chat' | 'consultas' | 'perfil';
+export type TabBarTabKey = DefaultTabKey | ProviderTabKey | LojistaTabKey;
 
 export type TabBarProps = {
   variant?: TabBarVariant;
@@ -47,17 +49,26 @@ const PROVIDER_TABS: TabDef[] = [
   { key: 'perfil', label: 'Perfil', Icon: User }
 ];
 
+const LOJISTA_TABS: TabDef[] = [
+  { key: 'inicio', label: 'Início', Icon: House },
+  { key: 'estoque', label: 'Estoque', Icon: Car },
+  { key: 'chat', label: 'Chat', Icon: MessageCircleMore },
+  { key: 'consultas', label: 'Consultas', Icon: Search },
+  { key: 'perfil', label: 'Perfil', Icon: User }
+];
+
 function TabItem({
   tab,
   active,
+  activeColor,
   onPress
 }: {
   tab: TabDef;
   active: boolean;
+  activeColor: string;
   onPress?: (tab: TabBarTabKey) => void;
 }) {
-  const theme = useTheme();
-  const color = active ? theme.text.brand : ColorSlate400;
+  const color = active ? activeColor : ColorSlate400;
   return (
     <Pressable
       accessibilityRole="button"
@@ -82,17 +93,27 @@ export function TabBar({
 }: TabBarProps) {
   const theme = useTheme();
   const isProvider = variant === 'provider';
-  const tabs = isProvider ? PROVIDER_TABS : DEFAULT_TABS;
+  const isLojista = variant === 'lojista';
+  const tabs = isLojista ? LOJISTA_TABS : isProvider ? PROVIDER_TABS : DEFAULT_TABS;
+  // Item ativo do lojista é vermelho fixo (primary/700) — resgate proposital
+  // da cor original da VRUM nesse elemento, independente do tema do app.
+  const activeColor = isLojista ? ColorPrimary700 : theme.text.brand;
   const middleIndex = Math.ceil(tabs.length / 2);
 
   return (
     <View style={[styles.container, style]}>
       <View style={styles.row}>
         {tabs.slice(0, middleIndex).map((tab) => (
-          <TabItem key={tab.key} tab={tab} active={activeTab === tab.key} onPress={onTabPress} />
+          <TabItem
+            key={tab.key}
+            tab={tab}
+            active={activeTab === tab.key}
+            activeColor={activeColor}
+            onPress={onTabPress}
+          />
         ))}
 
-        {!isProvider && showEmergencyButton ? (
+        {variant === 'default' && showEmergencyButton ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Socorro emergencial"
@@ -107,7 +128,13 @@ export function TabBar({
         ) : null}
 
         {tabs.slice(middleIndex).map((tab) => (
-          <TabItem key={tab.key} tab={tab} active={activeTab === tab.key} onPress={onTabPress} />
+          <TabItem
+            key={tab.key}
+            tab={tab}
+            active={activeTab === tab.key}
+            activeColor={activeColor}
+            onPress={onTabPress}
+          />
         ))}
       </View>
     </View>
