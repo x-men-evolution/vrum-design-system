@@ -18,7 +18,14 @@ export { Button, BUTTON_VARIANTS, BUTTON_SIZES } from './components/Button';
 export type { ButtonProps, ButtonVariant, ButtonSize } from './components/Button';
 
 export { TabBar, TAB_BAR_VARIANTS } from './components/TabBar';
-export type { TabBarProps, TabBarVariant, DefaultTabKey, ProviderTabKey, TabBarTabKey } from './components/TabBar';
+export type {
+  TabBarProps,
+  TabBarVariant,
+  DefaultTabKey,
+  ProviderTabKey,
+  LojistaTabKey,
+  TabBarTabKey
+} from './components/TabBar';
 
 export { Input, INPUT_SIZES } from './components/Input';
 export type { InputProps, InputSize } from './components/Input';
