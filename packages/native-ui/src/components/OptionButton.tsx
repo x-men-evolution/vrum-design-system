@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react-native';
 import {
   ColorBranco,
   ColorSecondary500,
+  ColorSlate300,
   ColorSlate700,
   RadiusXl,
   SpacingMd,
@@ -39,6 +40,7 @@ export function OptionButton({
 }: OptionButtonProps) {
   const theme = useTheme();
   const contentColor = disabled ? theme.text.disabled : ColorSlate700;
+  const iconColor = disabled ? theme.text.disabled : ColorSlate300;
   const descriptionColor = disabled ? theme.text.disabled : ColorSecondary500;
 
   return (
@@ -59,7 +61,7 @@ export function OptionButton({
       ]}
       {...props}
     >
-      <Icon size={iconSize} color={contentColor} />
+      <Icon size={iconSize} color={iconColor} />
       <View style={styles.textContainer}>
         <RNText style={[styles.title, { color: contentColor }]} numberOfLines={1}>
           {title}
