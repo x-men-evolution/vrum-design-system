@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "vrum-mobile-expo",
+      "name": "vrum-driver-expo",
       "runtimeExecutable": "bash",
-      "runtimeArgs": ["-c", "cd ../vrum-mobile && exec npx expo start --localhost"],
+      "runtimeArgs": ["-c", "cd ../vrum-driver && exec npx expo start --localhost"],
       "port": 8081
     }
   ]
