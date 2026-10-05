@@ -21,7 +21,7 @@ Monorepo npm (`packages/design-tokens`, `native-ui`, `web-ui`) publicado no GitH
 
 Mudança só em documentação ou em `.claude/` não gera versão nem tag.
 
-## Fluxo (autonomia dada pelo usuário: não perguntar a cada vez)
+## Fluxo
 1. Push da branch e `gh pr create` com resumo (o quê e por quê, incluindo a versão) e plano de teste.
 2. Com o CI verde (`ci.yml`: build, lint, typecheck, test), `gh pr merge --merge`.
 3. Tag no commit de merge e push: `git tag vX.Y.Z <sha> && git push origin vX.Y.Z`. O `publish.yml` publica os três pacotes.
